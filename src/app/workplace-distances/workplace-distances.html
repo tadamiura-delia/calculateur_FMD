@@ -1,0 +1,39 @@
+<h2 class="fr-h4">Lieux de travail</h2>
+
+<form [formRoot]="lieuForm" (submit)="onSubmit()">
+  <app-select-field
+    label="Lieu de travail"
+    inputId="lieuTravail"
+    hint="Sélectionnez une valeur dans la liste."
+    [options]="lieuTravailOptions"
+    [formField]="lieuForm.lieuTravail" />
+
+  @if (lieuForm.lieuTravail().value()) {
+    <app-text-field
+      label="Distance (km)"
+      inputId="distance"
+      inputMode="decimal"
+      hint="Au plus une décimale, par exemple 12,5."
+      [formField]="lieuForm.distance" />
+  }
+
+  @if (allerRetourKm(); as allerRetour) {
+    <dsfr-form-input
+      label="Aller-retour (km)"
+      name="allerRetour"
+      hint="Calculé automatiquement : distance × 2."
+      [readonly]="true"
+      [value]="allerRetour"
+    />
+  }
+
+  <ul class="fr-btns-group fr-mt-2w">
+    <li><dsfr-button type="submit" label="Valider" /></li>
+  </ul>
+</form>
+
+<dsfr-datatable
+  tableId="distances"
+  caption="Distance enregistrée pour chaque lieu de travail"
+  [columns]="colonnes"
+  [data]="lieux()" />

@@ -1,0 +1,6 @@
+<div class="fr-container fr-my-4w">
+  <h1>Dashboard</h1>
+
+  <app-period-form (valider)="periode.set($event)" />
+  <app-calendar-table [periode]="periode()" />
+</div>

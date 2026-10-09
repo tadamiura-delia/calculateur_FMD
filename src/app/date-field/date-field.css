@@ -1,0 +1,21 @@
+.date-field {
+  /* Ancre le calendrier natif au niveau du champ plutôt qu'en haut de page. */
+  position: relative;
+}
+
+/*
+ * Le champ date doit rester rendu pour que `showPicker()` puisse y accrocher
+ * sa fenêtre : on le réduit et on l'efface, sans jamais le retirer du flux
+ * avec `display: none`.
+ */
+.date-field__picker {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  border: 0;
+  opacity: 0;
+  pointer-events: none;
+}

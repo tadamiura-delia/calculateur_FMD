@@ -1,0 +1,45 @@
+<form [formRoot]="periodeForm" (submit)="onSubmit()">
+  <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--bottom">
+    <div class="fr-col-12 fr-col-md-4">
+      <app-select-field
+        label="Trimestre"
+        inputId="trimestre"
+        [options]="trimestreOptions"
+        [formField]="periodeForm.trimestre" />
+    </div>
+
+    <div class="fr-col-12 fr-col-md-4">
+      <app-text-field
+        label="Année"
+        inputId="annee"
+        hint="Quatre chiffres. Exemple : 2026"
+        placeholder="AAAA"
+        inputMode="numeric"
+        [formField]="periodeForm.annee" />
+    </div>
+  </div>
+
+  <!-- Les trois contrôles alignés par le bas : le bouton se pose ainsi sur la
+       ligne des champs, sans décalage calculé à la main. -->
+  <div class="fr-grid-row fr-grid-row--gutters fr-grid-row--bottom">
+    <div class="fr-col-12 fr-col-md-4">
+      <app-date-field
+        label="Date de début *"
+        inputId="from"
+        hint="Premier jour d'un mois. Format : JJ/MM/AAAA"
+        [formField]="periodeForm.from" />
+    </div>
+
+    <div class="fr-col-12 fr-col-md-4">
+      <app-date-field
+        label="Date de fin *"
+        inputId="to"
+        hint="Complétée automatiquement : trois mois après le début"
+        [formField]="periodeForm.to" />
+    </div>
+
+    <div class="fr-col-12 fr-col-md-4">
+      <dsfr-button type="submit" label="Valider" />
+    </div>
+  </div>
+</form>

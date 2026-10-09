@@ -1,0 +1,11 @@
+<dsfr-header [serviceTitle]="title" [logo]="logo">
+  <ng-template #toolsLinksTemplate>
+    <dsfr-usermenu
+      labelMenu="Mon espace"
+      ariaLabelMenu="Ouvrir le menu"
+      userName="Tada"
+      userDetails="Administrateur"
+      [links]="userMenuLinks"
+      [showLogout]="false" />
+  </ng-template>
+</dsfr-header>

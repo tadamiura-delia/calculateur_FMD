@@ -1,0 +1,41 @@
+<div class="date-field">
+  <dsfr-form-input
+    type="text"
+    [hint]="hint()"
+    placeholder="JJ/MM/AAAA"
+    autocomplete="off"
+    inputWrapMode="action"
+    buttonType="button"
+    buttonVariant="tertiary"
+    [maxLength]="10"
+    [buttonIcon]="calendrierDisponible ? 'fr-icon-calendar-line' : undefined"
+    [buttonAriaLabel]="'Choisir « ' + label() + ' » dans le calendrier'"
+    (buttonSelect)="ouvrirCalendrier()"
+    [label]="label()"
+    [name]="inputId()"
+    [inputId]="inputId()"
+    [required]="required()"
+    [disabled]="disabled()"
+    [message]="message()"
+    [messageSeverity]="message() ? 'error' : undefined"
+    [ngModel]="texte()"
+    [ngModelOptions]="{ standalone: true }"
+    (ngModelChange)="texte.set($event ?? '')"
+    (focusout)="touch.emit()"
+  />
+
+  <!--
+    Ce champ n'est jamais saisi : il ne sert qu'à héberger le calendrier natif,
+    que `showPicker()` ouvre à la demande. Il reste rendu (et non `display:none`)
+    car le navigateur y ancre la fenêtre du calendrier.
+  -->
+  <input
+    #calendrier
+    type="date"
+    class="date-field__picker"
+    tabindex="-1"
+    aria-hidden="true"
+    [value]="value()"
+    (change)="surChoixCalendrier($event)"
+  />
+</div>

@@ -1,0 +1,37 @@
+@if (lignes().length) {
+  <div class="fr-callout fr-mt-4w" aria-live="polite">
+    <p class="fr-callout__title">Total : {{ totalKm() }} km</p>
+    <p class="fr-callout__text">Prime correspondante : {{ primeEuros() }} €</p>
+  </div>
+
+  <dsfr-datatable
+    tableId="calendrier"
+    dataKey="date"
+    caption="Journées de la période sélectionnée"
+    [columns]="colonnes"
+    [data]="lignes()">
+    <ng-template #tableBodyTemplate let-ligne>
+      <tr>
+        <td>{{ ligne.jour }}</td>
+        <td>{{ ligne.date }}</td>
+        <td>
+          <app-select-field
+            [label]="'Lieu du ' + ligne.jour + ' ' + ligne.date"
+            [labelSrOnly]="true"
+            [options]="lieuTravailOptions"
+            [inputId]="'lieu-' + ligne.index"
+            [formField]="journeesForm[ligne.index].lieu" />
+        </td>
+        <td>
+          <app-select-field
+            [label]="'Moyen de transport du ' + ligne.jour + ' ' + ligne.date"
+            [labelSrOnly]="true"
+            [options]="transportOptions"
+            [inputId]="'transport-' + ligne.index"
+            [formField]="journeesForm[ligne.index].transport" />
+        </td>
+        <td>{{ ligne.distance }}</td>
+      </tr>
+    </ng-template>
+  </dsfr-datatable>
+}

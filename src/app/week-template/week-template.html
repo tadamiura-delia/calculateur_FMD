@@ -1,0 +1,39 @@
+<h2 class="fr-h4 fr-mt-6w">Semaine type</h2>
+<p class="fr-hint-text">
+  Ces habitudes seront appliquées à chaque jour de la période choisie sur le tableau de bord.
+</p>
+
+<dsfr-datatable
+  tableId="semaine-type"
+  dataKey="nom"
+  caption="Lieu et moyen de transport habituels de chaque jour"
+  [columns]="colonnes"
+  [data]="semaineForm().value()">
+  <ng-template #tableBodyTemplate let-jour let-i="index">
+    <tr>
+      <td>{{ jour.nom }}</td>
+      <td>
+        <app-select-field
+          [label]="'Lieu du ' + jour.nom"
+          [labelSrOnly]="true"
+          [options]="lieuTravailOptions"
+          [inputId]="'semaine-lieu-' + jour.index"
+          [formField]="semaineForm[i].lieu" />
+      </td>
+      <td>
+        <app-select-field
+          [label]="'Moyen de transport du ' + jour.nom"
+          [labelSrOnly]="true"
+          [options]="transportOptions"
+          [inputId]="'semaine-transport-' + jour.index"
+          [formField]="semaineForm[i].transport" />
+      </td>
+    </tr>
+  </ng-template>
+</dsfr-datatable>
+
+<ul class="fr-btns-group fr-mt-2w">
+  <li>
+    <dsfr-button type="button" label="Appliquer la semaine type" (click)="appliquer()" />
+  </li>
+</ul>
