@@ -1,5 +1,9 @@
 # TutoAngularDsfr
 
+Calcul de la prime de transport d'un collaborateur sur un trimestre.
+Voir la [documentation fonctionnelle](docs/documentation-fonctionnelle.md) pour
+le détail des écrans et des règles de gestion.
+
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.2.0.
 
 ## Development server
