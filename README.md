@@ -6,6 +6,42 @@ le détail des écrans et des règles de gestion.
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.2.0.
 
+## Installation
+
+### Prérequis
+
+- **Node.js 24** (LTS), dont la version exacte est fixée dans [`.nvmrc`](.nvmrc).
+  Angular 22 exige Node `^22.22.3 || ^24.15.0 || >=26`, mais `@edugouvfr/ngx-dsfr`
+  ne prend pas encore en charge Node 26 : Node 24 est la version compatible avec
+  les deux.
+- **npm 11**, fourni avec Node 24.
+- [nvm](https://github.com/nvm-sh/nvm), conseillé pour installer et changer de
+  version de Node.
+
+### Étapes
+
+1. Installer et activer la version de Node du projet (lue dans `.nvmrc`) :
+
+   ```bash
+   nvm install
+   nvm use
+   ```
+
+2. Installer les dépendances, à l'identique de `package-lock.json` :
+
+   ```bash
+   npm ci
+   ```
+
+3. Lancer l'application, puis ouvrir `http://localhost:4200/` :
+
+   ```bash
+   npm start
+   ```
+
+La CLI Angular n'a pas besoin d'être installée globalement : `npx ng <commande>`
+utilise celle du projet. Les commandes `ng` ci-dessous peuvent s'écrire ainsi.
+
 ## Development server
 
 To start a local development server, run:
