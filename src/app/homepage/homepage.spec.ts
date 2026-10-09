@@ -1,6 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Homepage } from './homepage';
 
+/**
+ * Rendre un trimestre complet (environ 90 lignes, deux listes DSFR chacune)
+ * prend environ 5 s sous jsdom : plus que le délai par défaut de Vitest.
+ */
+const CALENDRIER_TIMEOUT = 20_000;
+
 describe('Homepage', () => {
   let component: Homepage;
   let fixture: ComponentFixture<Homepage>;
@@ -37,14 +43,14 @@ describe('Homepage', () => {
     await fixture.whenStable();
   }
 
-  it('should hand the validated period over to the calendar', async () => {
+  it('should hand the validated period over to the calendar', { timeout: CALENDRIER_TIMEOUT }, async () => {
     await validerPeriode('01/01/2026', '31/03/2026');
 
     expect(host.querySelectorAll('tbody tr').length).toBe(31 + 28 + 31);
     expect(host.querySelector('.fr-callout')!.textContent).toContain('Total : 0 km');
   });
 
-  it('should clear the calendar when a later period is invalid', async () => {
+  it('should clear the calendar when a later period is invalid', { timeout: CALENDRIER_TIMEOUT }, async () => {
     await validerPeriode('01/01/2026', '31/03/2026');
     expect(host.querySelectorAll('tbody tr').length).toBe(31 + 28 + 31);
 

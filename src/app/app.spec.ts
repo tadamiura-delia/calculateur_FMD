@@ -17,12 +17,12 @@ describe('App', () => {
     expect(app).toBeTruthy();
   });
 
-  it('should render the project name in the header', async () => {
+  it('should render the application name in the header', async () => {
     const fixture = TestBed.createComponent(App);
     await fixture.whenStable();
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelector('.fr-header__service-title')?.textContent).toContain(
-      'tuto_angular_dsfr',
+      'Calculateur de déclaration Forfait Mobilité Durable',
     );
   });
 });

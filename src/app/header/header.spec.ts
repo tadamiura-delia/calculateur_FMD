@@ -13,7 +13,6 @@ describe('Header', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(Header);
-    fixture.componentRef.setInput('title', 'tuto_angular_dsfr');
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
@@ -30,10 +29,12 @@ describe('Header', () => {
     expect(labels).toContain('Configuration');
   });
 
-  it('should display the project name as the service title', () => {
+  it('should display the application name as the service title', () => {
     const serviceTitle: HTMLElement = fixture.nativeElement.querySelector(
       '.fr-header__service-title',
     );
-    expect(serviceTitle.textContent).toContain('tuto_angular_dsfr');
+    expect(serviceTitle.textContent).toContain(
+      'Calculateur de déclaration Forfait Mobilité Durable',
+    );
   });
 });

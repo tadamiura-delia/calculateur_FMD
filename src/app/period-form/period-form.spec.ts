@@ -99,20 +99,6 @@ describe('PeriodForm', () => {
     expect(host.textContent).toContain('Sélectionnez une date de début.');
   });
 
-  it('should summarise the validated period as dd/mm/yyyy', async () => {
-    await saisirEtValider('2026-01-01', '2026-03-31');
-    expect(host.textContent).toContain('01/01/2026');
-    expect(host.textContent).toContain('31/03/2026');
-  });
-
-  it('should drop the summary when a later submit is invalid', async () => {
-    await saisirEtValider('2026-01-01', '2026-03-31');
-    expect(host.textContent).toContain('01/01/2026');
-
-    await saisirEtValider('2026-01-15', '2026-03-31');
-    expect(host.textContent).not.toContain('01/01/2026');
-  });
-
   it('should offer the four quarters', () => {
     const trimestre = host.querySelector('#trimestre') as HTMLSelectElement;
     const libelles = Array.from(trimestre.options).map((o) => o.textContent!.trim());

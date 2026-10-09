@@ -46,7 +46,7 @@ describe('WorkplaceDistances', () => {
     expect(component['lieuForm'].lieuTravail().value()).toBe(component['lieuTravailOptions'][1].value);
   });
 
-  it('should compute the round trip as twice the distance, in a disabled field', async () => {
+  it('should compute the round trip as twice the distance, in a read-only field', async () => {
     const compiled = fixture.nativeElement as HTMLElement;
 
     const select = compiled.querySelector<HTMLSelectElement>('.fr-select')!;
@@ -62,7 +62,7 @@ describe('WorkplaceDistances', () => {
     const inputs = compiled.querySelectorAll<HTMLInputElement>('input.fr-input');
     expect(inputs.length).toBe(2);
     expect(inputs[1].value).toBe('24');
-    expect(inputs[1].disabled).toBe(true);
+    expect(inputs[1].readOnly).toBe(true);
   });
 
   /** Lignes du tableau des distances, cellule par cellule. */

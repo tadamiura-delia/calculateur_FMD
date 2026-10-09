@@ -57,3 +57,9 @@ You are an expert in TypeScript, Angular, and scalable web application developme
 - Use the `providedIn: 'root'` option for singleton services
 - Prefer the `@Service` decorator over `@Injectable({providedIn: 'root'})` for new singleton services (Angular v22+)
 - Use the `inject()` function instead of constructor injection
+
+## Tests
+
+- After every code change, run the tests of the modified components before reporting the work as done: `npx ng test --watch=false --include src/app/<component>` (one `--include` per modified component or folder).
+- If a change touches shared code (`src/app/shared/`, routing, `app.*`), run the whole suite: `npx ng test --watch=false`.
+- Never leave failing tests: fix the code, or update the spec when the behavior change is intended (the functional reference is `docs/documentation-fonctionnelle.md`).

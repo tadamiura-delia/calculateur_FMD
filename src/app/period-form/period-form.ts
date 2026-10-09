@@ -34,12 +34,6 @@ const TRIMESTRE_OPTIONS: DsfrSelectOption[] = TRIMESTRES.map((numero) => ({
   value: String(numero),
 }));
 
-/** Convertit « AAAA-MM-JJ » en `Date` à minuit, heure locale. */
-function toDate(isoDate: string): Date {
-  const [year, month, day] = isoDate.split('-').map(Number);
-  return new Date(year, month - 1, day);
-}
-
 /** Choix d'une période : deux dates et leur validation croisée. */
 @Component({
   selector: 'app-period-form',
@@ -135,24 +129,15 @@ export class PeriodForm {
     }
   });
 
-  protected readonly fromValide = signal<Date | undefined>(undefined);
-  protected readonly toValide = signal<Date | undefined>(undefined);
-
   protected onSubmit(): void {
     this.periodeForm().markAsTouched();
 
     if (!this.periodeForm().valid()) {
-      // Le résumé ne doit pas contredire les messages d'erreur affichés.
-      this.fromValide.set(undefined);
-      this.toValide.set(undefined);
       this.valider.emit(undefined);
       return;
     }
 
     const { from, to } = this.model();
-    const periode: Periode = { from, to };
-    this.fromValide.set(toDate(periode.from));
-    this.toValide.set(toDate(periode.to));
-    this.valider.emit(periode);
+    this.valider.emit({ from, to });
   }
 }

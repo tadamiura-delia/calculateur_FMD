@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { Header } from './header/header';
 import { RouterOutlet } from '@angular/router';
 
@@ -8,6 +8,4 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './app.css',
   templateUrl: './app.html',
 })
-export class App {
-  protected readonly title = signal('tuto_angular_dsfr');
-}
+export class App {}
