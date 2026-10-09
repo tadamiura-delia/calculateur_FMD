@@ -100,8 +100,8 @@ describe('CalendarTable', () => {
   });
 
   it('should apply the round trip of the chosen place, and follow a change', async () => {
-    store().enregistrer('agence-rennes', 12);
-    store().enregistrer('agence-nantes', 40);
+    store().save('agence-rennes', 12);
+    store().save('agence-nantes', 40);
     await periode('2026-09-28', '2026-09-29');
 
     journeesForm()[0].lieu().value.set('agence-rennes');
@@ -116,14 +116,14 @@ describe('CalendarTable', () => {
   });
 
   it('should keep weekends at 0 even when congés/férié has a distance', async () => {
-    store().enregistrer('conges-ferie', 30);
+    store().save('conges-ferie', 30);
     await periode('2026-10-03', '2026-10-04');
     expect(distanceDe(0)).toBe('0');
     expect(distanceDe(1)).toBe('0');
   });
 
   it('should total the period and derive the premium at 0.2 €/km', async () => {
-    store().enregistrer('agence-rennes', 12); // 24 km aller-retour
+    store().save('agence-rennes', 12); // 24 km aller-retour
     await periode('2026-09-28', '2026-09-30');
 
     journeesForm()[0].lieu().value.set('agence-rennes');
@@ -134,7 +134,7 @@ describe('CalendarTable', () => {
   });
 
   it('should always render the premium with two decimals, above the table', async () => {
-    store().enregistrer('agence-rennes', 5); // 10 km aller-retour
+    store().save('agence-rennes', 5); // 10 km aller-retour
     await periode('2026-09-28', '2026-09-29');
     journeesForm()[0].lieu().value.set('agence-rennes');
     await fixture.whenStable();
@@ -147,7 +147,7 @@ describe('CalendarTable', () => {
 
   /** Semaine type : télétravail le lundi, Nantes à vélo le mardi. */
   function semaineType() {
-    store().enregistrerSemaineType([
+    store().saveSemaineType([
       { lieu: 'conges-ferie', transport: '' }, // dimanche
       { lieu: 'teletravail', transport: '' }, // lundi
       { lieu: 'agence-nantes', transport: 'velo' }, // mardi
@@ -185,7 +185,7 @@ describe('CalendarTable', () => {
   });
 
   it('should keep weekends on congés/férié whatever the week template says', async () => {
-    store().enregistrerSemaineType(
+    store().saveSemaineType(
       Array.from({ length: 7 }, () => ({ lieu: 'agence-rennes', transport: 'velo' })),
     );
     await periode('2026-10-03', '2026-10-04'); // samedi + dimanche
@@ -198,7 +198,7 @@ describe('CalendarTable', () => {
   });
 
   it('should carry the template distance straight into the summary', async () => {
-    store().enregistrer('agence-nantes', 40); // 80 km aller-retour
+    store().save('agence-nantes', 40); // 80 km aller-retour
     semaineType();
     await periode('2026-09-28', '2026-09-30'); // mardi seul est à Nantes
 

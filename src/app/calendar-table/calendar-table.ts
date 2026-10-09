@@ -11,7 +11,7 @@ import {
 import {
   datesDeLaPeriode,
   enDateFrancaise,
-  estWeekend,
+  isWeekend,
   indexDuJour,
   nomDuJour,
   type Periode,
@@ -29,11 +29,13 @@ export interface Journee {
 const PRIME_PAR_KM = 0.2;
 
 /**
- * Une ligne neuve. Le week-end est imposé ; les autres jours reprennent la
- * semaine type si elle a été enregistrée, et restent vides sinon.
+ * Construit la ligne initiale d'une date, avant toute saisie : le week-end est
+ * imposé (« Congés / Férié », sans transport) ; les autres jours reprennent le
+ * lieu et le transport de la semaine type si elle a été enregistrée, et restent
+ * vides sinon.
  */
-function enJournee(date: string, semaine: SemaineType | undefined): Journee {
-  if (estWeekend(date)) {
+function journeePreremplie(date: string, semaine: SemaineType | undefined): Journee {
+  if (isWeekend(date)) {
     return { date, lieu: LIEU_CONGES_FERIE, transport: '' };
   }
   const habitude = semaine?.[indexDuJour(date)];
@@ -76,14 +78,14 @@ export class CalendarTable {
       return [];
     }
     const semaine = this.store.semaineType();
-    return datesDeLaPeriode(periode.from, periode.to).map((date) => enJournee(date, semaine));
+    return datesDeLaPeriode(periode.from, periode.to).map((date) => journeePreremplie(date, semaine));
   });
 
   protected readonly journeesForm = form(this.journees, (path) => {
     applyEach(path, (journee) => {
       // Samedi et dimanche : lieu figé sur « Congés / Férié », transport vide.
-      disabled(journee.lieu, ({ valueOf }) => estWeekend(valueOf(journee.date)));
-      disabled(journee.transport, ({ valueOf }) => estWeekend(valueOf(journee.date)));
+      disabled(journee.lieu, { when: ({ valueOf }) => isWeekend(valueOf(journee.date)) });
+      disabled(journee.transport, { when: ({ valueOf }) => isWeekend(valueOf(journee.date)) });
     });
   });
 
@@ -98,7 +100,7 @@ export class CalendarTable {
       date: enDateFrancaise(journee.date),
       // Le week-end ne compte jamais, même si « Congés / Férié » a reçu une
       // distance sur la page de configuration.
-      distance: estWeekend(journee.date) ? 0 : this.store.allerRetour(journee.lieu),
+      distance: isWeekend(journee.date) ? 0 : this.store.allerRetour(journee.lieu),
     })),
   );
 

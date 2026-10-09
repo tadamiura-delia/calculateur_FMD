@@ -20,7 +20,7 @@ describe('PeriodForm', () => {
 
   const champ = () => (component as unknown as { periodeForm: any }).periodeForm;
 
-  async function saisirEtValider(from: string, to: string) {
+  async function fillAndValidate(from: string, to: string) {
     champ().from().value.set(from);
     champ().to().value.set(to);
     await fixture.whenStable();
@@ -44,12 +44,12 @@ describe('PeriodForm', () => {
   });
 
   it('should emit the period once it is valid', async () => {
-    await saisirEtValider('2026-01-01', '2026-03-31');
+    await fillAndValidate('2026-01-01', '2026-03-31');
     expect(emis).toEqual([{ from: '2026-01-01', to: '2026-03-31' }]);
   });
 
   it('should reject a start that is not the first day of a month', async () => {
-    await saisirEtValider('2026-09-28', '2026-12-31');
+    await fillAndValidate('2026-09-28', '2026-12-31');
     expect(emis).toEqual([undefined]);
     expect(host.textContent).toContain('premier jour');
   });
@@ -177,7 +177,7 @@ describe('PeriodForm', () => {
   });
 
   it('should still accept dates typed without the shortcuts', async () => {
-    await saisirEtValider('2026-01-01', '2026-03-31');
+    await fillAndValidate('2026-01-01', '2026-03-31');
     expect(emis).toEqual([{ from: '2026-01-01', to: '2026-03-31' }]);
   });
 

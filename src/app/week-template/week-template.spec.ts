@@ -17,7 +17,7 @@ describe('WeekTemplate', () => {
   const semaineForm = () => (fixture.componentInstance as unknown as { semaineForm: any }).semaineForm;
   const lignes = () => Array.from(host.querySelectorAll('tbody tr'));
   const selecteurs = (tr: Element) => Array.from(tr.querySelectorAll('select')) as HTMLSelectElement[];
-  const appliquer = () => (fixture.componentInstance as unknown as { appliquer: () => void }).appliquer();
+  const apply = () => (fixture.componentInstance as unknown as { apply: () => void }).apply();
 
   it('should create', () => {
     expect(fixture.componentInstance).toBeTruthy();
@@ -55,24 +55,24 @@ describe('WeekTemplate', () => {
   });
 
   it('should store weekends as congés/férié without transport', () => {
-    appliquer();
+    apply();
     expect(store().jourType(6)).toEqual({ lieu: 'conges-ferie', transport: '' });
     expect(store().jourType(0)).toEqual({ lieu: 'conges-ferie', transport: '' });
   });
 
   it('should replace a previously stored week', () => {
     semaineForm()[0].lieu().value.set('agence-rennes');
-    appliquer();
+    apply();
     expect(store().jourType(1)!.lieu).toBe('agence-rennes');
 
     semaineForm()[0].lieu().value.set('agence-nantes');
-    appliquer();
+    apply();
     expect(store().jourType(1)!.lieu).toBe('agence-nantes');
   });
 
   it('should not leak later edits into the stored week', () => {
     semaineForm()[0].lieu().value.set('agence-rennes');
-    appliquer();
+    apply();
     semaineForm()[0].lieu().value.set('mission-1');
     expect(store().jourType(1)!.lieu).toBe('agence-rennes');
   });
@@ -83,7 +83,7 @@ describe('WeekTemplate', () => {
   });
 
   it('should reopen on the stored week', async () => {
-    store().enregistrerSemaineType([
+    store().saveSemaineType([
       { lieu: 'conges-ferie', transport: '' }, // dimanche
       { lieu: 'teletravail', transport: '' }, // lundi
       { lieu: 'agence-nantes', transport: 'covoiturage' }, // mardi

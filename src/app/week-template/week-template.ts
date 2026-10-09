@@ -8,7 +8,7 @@ import {
   LIEU_TRAVAIL_OPTIONS,
   TRANSPORT_OPTIONS,
 } from '../shared/travail-options';
-import { estIndexWeekend, JOURS_DE_LA_SEMAINE } from '../shared/dates';
+import { isIndexWeekend, JOURS_DE_LA_SEMAINE } from '../shared/dates';
 
 /** Une ligne de la semaine type. `index` suit la convention `Date.getDay()`. */
 interface JourSemaine {
@@ -19,9 +19,9 @@ interface JourSemaine {
 }
 
 /** Les sept lignes, pré-remplies par la semaine type déjà enregistrée s'il y en a une. */
-function enLignes(semaine: SemaineType | undefined): JourSemaine[] {
+function createJoursPreRemplis(semaine: SemaineType | undefined): JourSemaine[] {
   return JOURS_DE_LA_SEMAINE.map(({ index, nom }) => {
-    if (estIndexWeekend(index)) {
+    if (isIndexWeekend(index)) {
       return { index, nom, lieu: LIEU_CONGES_FERIE, transport: '' };
     }
     const jour = semaine?.[index];
@@ -51,18 +51,20 @@ export class WeekTemplate {
    * `linkedSignal` : les lignes repartent de la semaine enregistrée, tout en
    * restant modifiables par le formulaire.
    */
-  private readonly jours = linkedSignal<JourSemaine[]>(() => enLignes(this.store.semaineType()));
+  private readonly jours = linkedSignal<JourSemaine[]>(() =>
+    createJoursPreRemplis(this.store.semaineType()),
+  );
 
   protected readonly semaineForm = form(this.jours, (path) => {
     applyEach(path, (jour) => {
       // Samedi et dimanche ne se configurent pas : toute la ligne est figée.
-      disabled(jour.lieu, ({ valueOf }) => estIndexWeekend(valueOf(jour.index)));
-      disabled(jour.transport, ({ valueOf }) => estIndexWeekend(valueOf(jour.index)));
+      disabled(jour.lieu, { when: ({ valueOf }) => isIndexWeekend(valueOf(jour.index)) });
+      disabled(jour.transport, { when: ({ valueOf }) => isIndexWeekend(valueOf(jour.index)) });
     });
   });
 
   /** Enregistre la semaine type, rangée par indice de jour. */
-  protected appliquer(): void {
+  protected apply(): void {
     const semaine: { lieu: string; transport: string }[] = Array.from({ length: 7 }, () => ({
       lieu: '',
       transport: '',
@@ -70,6 +72,6 @@ export class WeekTemplate {
     for (const jour of this.jours()) {
       semaine[jour.index] = { lieu: jour.lieu, transport: jour.transport };
     }
-    this.store.enregistrerSemaineType(semaine);
+    this.store.saveSemaineType(semaine);
   }
 }

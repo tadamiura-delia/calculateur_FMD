@@ -23,7 +23,7 @@ describe('ConfigurationStore', () => {
   });
 
   it('should record a distance and derive the round trip', () => {
-    store.enregistrer('agence-rennes', 12);
+    store.save('agence-rennes', 12);
     expect(store.distance('agence-rennes')).toBe(12);
     expect(store.allerRetour('agence-rennes')).toBe(24);
 
@@ -33,22 +33,22 @@ describe('ConfigurationStore', () => {
   });
 
   it('should keep a single distance per place, replacing the previous one', () => {
-    store.enregistrer('agence-rennes', 12);
-    store.enregistrer('agence-rennes', 30);
+    store.save('agence-rennes', 12);
+    store.save('agence-rennes', 30);
     expect(store.distance('agence-rennes')).toBe(30);
     expect(store.lieux().filter((l) => l.value === 'agence-rennes').length).toBe(1);
   });
 
   it('should keep places independent from one another', () => {
-    store.enregistrer('agence-rennes', 12);
-    store.enregistrer('agence-nantes', 40);
+    store.save('agence-rennes', 12);
+    store.save('agence-nantes', 40);
     expect(store.distance('agence-rennes')).toBe(12);
     expect(store.distance('agence-nantes')).toBe(40);
     expect(store.distance('teletravail')).toBe(0);
   });
 
   it('should be a singleton shared across injections', () => {
-    store.enregistrer('mission-1', 7);
+    store.save('mission-1', 7);
     expect(TestBed.inject(ConfigurationStore).distance('mission-1')).toBe(7);
   });
 });

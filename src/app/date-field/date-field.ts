@@ -81,7 +81,7 @@ export class DateField implements FormValueControl<string> {
   );
 
   /** Ouvre le calendrier du navigateur sur le champ date masqué. */
-  protected ouvrirCalendrier(): void {
+  protected openCalendrier(): void {
     this.calendrier()?.nativeElement.showPicker();
   }
 

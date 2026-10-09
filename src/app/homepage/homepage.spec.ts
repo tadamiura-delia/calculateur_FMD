@@ -30,7 +30,7 @@ describe('Homepage', () => {
   });
 
   /** Remplit les deux champs visibles en JJ/MM/AAAA, puis soumet. */
-  async function validerPeriode(from: string, to: string) {
+  async function validatePeriode(from: string, to: string) {
     const debut = host.querySelector('#from') as HTMLInputElement;
     const fin = host.querySelector('#to') as HTMLInputElement;
     debut.value = from;
@@ -44,17 +44,17 @@ describe('Homepage', () => {
   }
 
   it('should hand the validated period over to the calendar', { timeout: CALENDRIER_TIMEOUT }, async () => {
-    await validerPeriode('01/01/2026', '31/03/2026');
+    await validatePeriode('01/01/2026', '31/03/2026');
 
     expect(host.querySelectorAll('tbody tr').length).toBe(31 + 28 + 31);
     expect(host.querySelector('.fr-callout')!.textContent).toContain('Total : 0 km');
   });
 
   it('should clear the calendar when a later period is invalid', { timeout: CALENDRIER_TIMEOUT }, async () => {
-    await validerPeriode('01/01/2026', '31/03/2026');
+    await validatePeriode('01/01/2026', '31/03/2026');
     expect(host.querySelectorAll('tbody tr').length).toBe(31 + 28 + 31);
 
-    await validerPeriode('15/01/2026', '31/03/2026');
+    await validatePeriode('15/01/2026', '31/03/2026');
     expect(host.querySelector('dsfr-datatable')).toBeNull();
   });
 });

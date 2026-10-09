@@ -73,7 +73,7 @@ describe('WorkplaceDistances', () => {
     );
   }
 
-  async function enregistrer(lieu: string, distance: string) {
+  async function fillAndSubmit(lieu: string, distance: string) {
     component['lieuForm'].lieuTravail().value.set(lieu);
     component['lieuForm'].distance().value.set(distance);
     await fixture.whenStable();
@@ -89,7 +89,7 @@ describe('WorkplaceDistances', () => {
   });
 
   it('should show a saved distance and its round trip', async () => {
-    await enregistrer('agence-rennes', '12');
+    await fillAndSubmit('agence-rennes', '12');
 
     const rennes = lignesDistances().find((ligne) => ligne[0].startsWith('Delia Rennes'))!;
     expect(rennes.slice(1)).toEqual(['12', '24']);
@@ -97,23 +97,23 @@ describe('WorkplaceDistances', () => {
   });
 
   it('should accept a distance with one decimal, comma or dot', async () => {
-    await enregistrer('agence-rennes', '12,5');
+    await fillAndSubmit('agence-rennes', '12,5');
     expect(TestBed.inject(ConfigurationStore).distance('agence-rennes')).toBe(12.5);
     expect(component['allerRetourKm']()).toBe('25');
 
-    await enregistrer('agence-rennes', '7.3');
+    await fillAndSubmit('agence-rennes', '7.3');
     expect(TestBed.inject(ConfigurationStore).distance('agence-rennes')).toBe(7.3);
     expect(component['allerRetourKm']()).toBe('14,6');
   });
 
   it('should reject a distance with more than one decimal', async () => {
-    await enregistrer('agence-rennes', '12,55');
+    await fillAndSubmit('agence-rennes', '12,55');
     expect(TestBed.inject(ConfigurationStore).distance('agence-rennes')).toBe(0);
   });
 
   it('should keep a single distance per place', async () => {
-    await enregistrer('agence-rennes', '12');
-    await enregistrer('agence-rennes', '30');
+    await fillAndSubmit('agence-rennes', '12');
+    await fillAndSubmit('agence-rennes', '30');
 
     const rennes = lignesDistances().filter((ligne) => ligne[0].startsWith('Delia Rennes'));
     expect(rennes.length).toBe(1);
@@ -121,7 +121,7 @@ describe('WorkplaceDistances', () => {
   });
 
   it('should leave other places untouched', async () => {
-    await enregistrer('agence-rennes', '12');
+    await fillAndSubmit('agence-rennes', '12');
 
     const nantes = lignesDistances().find((ligne) => ligne[0].startsWith('Delia Nantes'))!;
     expect(nantes.slice(1)).toEqual(['0', '0']);

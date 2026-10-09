@@ -75,7 +75,7 @@ export class WorkplaceDistances {
 
     if (this.lieuForm().valid()) {
       const { lieuTravail, distance } = this.model();
-      this.store.enregistrer(lieuTravail, parseDistance(distance) ?? 0);
+      this.store.save(lieuTravail, parseDistance(distance) ?? 0);
     }
   }
 }

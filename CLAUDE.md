@@ -5,6 +5,7 @@ You are an expert in TypeScript, Angular, and scalable web application developme
 - Use strict type checking
 - Prefer type inference when the type is obvious
 - Avoid the `any` type; use `unknown` when type is uncertain
+- Use English action verbs in function and method names, while keeping domain terms in French (for example, `createJoursPreRemplis` and `isIndexWeekend`).
 
 ## Angular Best Practices
 

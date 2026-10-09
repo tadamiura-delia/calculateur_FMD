@@ -1,8 +1,8 @@
 import {
   datesDeLaPeriode,
   enDateFrancaise,
-  estPremierDuMois,
-  estWeekend,
+  isPremierDuMois,
+  isWeekend,
   finDePeriode,
   nomDuJour,
   debutDeTrimestre,
@@ -42,10 +42,10 @@ describe('dates', () => {
   });
 
   it('should flag Saturdays and Sundays only', () => {
-    expect(estWeekend('2026-10-02')).toBe(false);
-    expect(estWeekend('2026-10-03')).toBe(true);
-    expect(estWeekend('2026-10-04')).toBe(true);
-    expect(estWeekend('2026-10-05')).toBe(false);
+    expect(isWeekend('2026-10-02')).toBe(false);
+    expect(isWeekend('2026-10-03')).toBe(true);
+    expect(isWeekend('2026-10-04')).toBe(true);
+    expect(isWeekend('2026-10-05')).toBe(false);
   });
 
   it('should format a date the French way', () => {
@@ -55,11 +55,11 @@ describe('dates', () => {
 
 describe('période de trois mois', () => {
   it('should recognise the first day of a month', () => {
-    expect(estPremierDuMois('2026-01-01')).toBe(true);
-    expect(estPremierDuMois('2026-02-01')).toBe(true);
-    expect(estPremierDuMois('2026-01-02')).toBe(false);
-    expect(estPremierDuMois('2026-01-31')).toBe(false);
-    expect(estPremierDuMois('')).toBe(false);
+    expect(isPremierDuMois('2026-01-01')).toBe(true);
+    expect(isPremierDuMois('2026-02-01')).toBe(true);
+    expect(isPremierDuMois('2026-01-02')).toBe(false);
+    expect(isPremierDuMois('2026-01-31')).toBe(false);
+    expect(isPremierDuMois('')).toBe(false);
   });
 
   it('should end on the last day of the third month', () => {
@@ -100,7 +100,7 @@ describe('trimestres', () => {
 
   it('should always start a quarter on the first of a month', () => {
     for (const trimestre of TRIMESTRES) {
-      expect(estPremierDuMois(debutDeTrimestre(trimestre, 2026))).toBe(true);
+      expect(isPremierDuMois(debutDeTrimestre(trimestre, 2026))).toBe(true);
     }
   });
 });

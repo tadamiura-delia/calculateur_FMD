@@ -58,7 +58,7 @@ export class ConfigurationStore {
   }
 
   /** Associe une distance à un lieu, en remplaçant celle déjà enregistrée. */
-  enregistrer(lieu: string, distance: number): void {
+  save(lieu: string, distance: number): void {
     this.distances.update((actuelles) => ({ ...actuelles, [lieu]: distance }));
   }
 
@@ -71,7 +71,7 @@ export class ConfigurationStore {
   }
 
   /** Remplace la semaine type par celle fournie. */
-  enregistrerSemaineType(semaine: SemaineType): void {
+  saveSemaineType(semaine: SemaineType): void {
     this.semaine.set(semaine.map((jour) => ({ ...jour })));
   }
 }

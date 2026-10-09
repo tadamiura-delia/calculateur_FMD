@@ -15,7 +15,7 @@ import { TextField } from '../text-field/text-field';
 import {
   debutDeTrimestre,
   enDateFrancaise,
-  estPremierDuMois,
+  isPremierDuMois,
   finDePeriode,
   MOIS_PAR_PERIODE,
   TRIMESTRES,
@@ -67,12 +67,12 @@ export class PeriodForm {
       const from = value();
       // Le format est déjà contrôlé plus haut : on ne se prononce pas tant
       // qu'il n'est pas bon.
-      if (!ISO_DATE.test(from) || estPremierDuMois(from)) {
+      if (!ISO_DATE.test(from) || isPremierDuMois(from)) {
         return undefined;
       }
       return {
         kind: 'debutDeMois',
-        message: 'La période doit commencer le premier jour d\u2019un mois.',
+        message: "La période doit commencer le premier jour d'un mois.",
       };
     });
 
@@ -84,7 +84,7 @@ export class PeriodForm {
       const to = value();
       // Sans début exploitable, la fin attendue est incalculable : c'est le
       // champ « from » qui porte alors le message.
-      if (!estPremierDuMois(from) || !ISO_DATE.test(to)) {
+      if (!isPremierDuMois(from) || !ISO_DATE.test(to)) {
         return undefined;
       }
       const attendue = finDePeriode(from);
@@ -119,7 +119,7 @@ export class PeriodForm {
   // alors l'écart.
   private readonly _effectFrom = effect(() => {
     const from = this.periodeForm.from().value();
-    if (!estPremierDuMois(from)) {
+    if (!isPremierDuMois(from)) {
       return;
     }
     const attendue = finDePeriode(from);

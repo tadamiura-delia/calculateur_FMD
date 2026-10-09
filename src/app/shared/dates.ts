@@ -29,12 +29,12 @@ export const JOURS_DE_LA_SEMAINE: readonly { index: number; nom: string }[] = [
 ];
 
 /** Vrai pour les indices du samedi et du dimanche. */
-export function estIndexWeekend(index: number): boolean {
+export function isIndexWeekend(index: number): boolean {
   return index === 0 || index === 6;
 }
 
 /** Vrai les samedis et dimanches. */
-export function estWeekend(isoDate: string): boolean {
+export function isWeekend(isoDate: string): boolean {
   const jour = indexDuJour(isoDate);
   return jour === 0 || jour === 6;
 }
@@ -70,7 +70,7 @@ export function datesDeLaPeriode(fromIso: string, toIso: string): string[] {
 export const MOIS_PAR_PERIODE = 3;
 
 /** Vrai si la date ISO tombe le premier jour d'un mois. */
-export function estPremierDuMois(isoDate: string): boolean {
+export function isPremierDuMois(isoDate: string): boolean {
   return /^\d{4}-\d{2}-01$/.test(isoDate);
 }
 
